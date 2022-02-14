@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HelloWPF", "HelloWPF\HelloWPF.csproj", "{C5C95F9C-3132-414F-9F47-2847874D5425}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M01_HelloWPF", "HelloWPF\M01_HelloWPF.csproj", "{C5C95F9C-3132-414F-9F47-2847874D5425}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controls", "Controls\Controls.csproj", "{AA36DD84-70E3-4664-BFF7-8701842FF24C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "M02_Controls", "Controls\M02_Controls.csproj", "{AA36DD84-70E3-4664-BFF7-8701842FF24C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Personendatenbank", "Personendatenbank\Personendatenbank.csproj", "{3E4C7071-3741-4FFF-8406-05EEEA9115B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{AA36DD84-70E3-4664-BFF7-8701842FF24C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AA36DD84-70E3-4664-BFF7-8701842FF24C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA36DD84-70E3-4664-BFF7-8701842FF24C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E4C7071-3741-4FFF-8406-05EEEA9115B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E4C7071-3741-4FFF-8406-05EEEA9115B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E4C7071-3741-4FFF-8406-05EEEA9115B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E4C7071-3741-4FFF-8406-05EEEA9115B0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
