@@ -8,8 +8,8 @@
         Title="Neue Person" 
         SizeToContent="Height"
         Width="285" 
-        ResizeMode="NoResize" 
-        WindowStartupLocation="CenterScreen" 
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
         Topmost="True"
         FontSize="14.0">
 
@@ -51,7 +51,7 @@
                          GroupName="Rbg_Gender"/>
 
         <Button x:Name="Btn_Ok"
-                    Content="OK"/>
+                    Content="_OK"/>
         <Button x:Name="Btn_Abbruch"
                     Content="Abbrechen"/>
     </StackPanel>
