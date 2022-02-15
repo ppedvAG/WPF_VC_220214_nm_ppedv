@@ -27,8 +27,8 @@ namespace Container
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Canvas.SetLeft(Rct_Blue, 150);
-            Panel.SetZIndex(Rct_Blue, -2);
+            //Codeseitiger Schreib-Zugriff auf eine Attached-Property des Canvas
+            Canvas.SetLeft(Rct_Blue, 50);
         }
     }
 }
