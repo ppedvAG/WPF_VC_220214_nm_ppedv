@@ -7,11 +7,15 @@
         mc:Ignorable="d"
         Title="Neue Person" 
         SizeToContent="Height"
-        Width="285" 
+        Width="282" 
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Topmost="True"
-        FontSize="14.0">
+        FontSize="14.0"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseDown="LogAction"
+        TextBoxBase.TextChanged="LogAction"
+        ButtonBase.Click="LogAction">
 
     <Window.Background>
         <LinearGradientBrush>
