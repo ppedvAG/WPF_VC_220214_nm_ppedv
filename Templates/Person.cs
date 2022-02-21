@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Templates
 {
+    //Bsp-Klasse
     public class Person
     {
         public string Vorname { get; set; }
@@ -14,7 +15,7 @@ namespace Templates
 
         public override string ToString()
         {
-            return $"Person: {Vorname}";
+            return $"Person: {Nachname}";
         }
     }
 }
