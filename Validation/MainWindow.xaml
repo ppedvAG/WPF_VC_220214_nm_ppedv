@@ -8,27 +8,50 @@
         Title="MainWindow" Height="292" Width="357">
 
     <Window.Resources>
-        
+
         <!--ErrorTemplates sind ControlTemplates, welche das Element im Falle einer verletzten ValidationRule anzeigt-->
-    <ControlTemplate x:Key="Ctp_Error_01">
-        <StackPanel>
-            <Border BorderBrush="Red" BorderThickness="2">
-                <!--AdornedElementPlaceholder sind Platzhalterelemente für das ursprüngliche Element in
+        <ControlTemplate x:Key="Ctp_Error_01">
+            <StackPanel>
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <!--AdornedElementPlaceholder sind Platzhalterelemente für das ursprüngliche Element in
                         ErrorTemplates-->
-                <AdornedElementPlaceholder x:Name="Aep"/>
-            </Border>
-            <TextBlock Foreground="Red"
+                    <AdornedElementPlaceholder x:Name="Aep"/>
+                </Border>
+                <TextBlock Foreground="Red" HorizontalAlignment="Right"
                            Text="{Binding ElementName=Aep, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
-        </StackPanel>
-    </ControlTemplate>
-    
+            </StackPanel>
+        </ControlTemplate>
+
+        <ControlTemplate x:Key="Ctp_Error_02">
+            <StackPanel>
+                <Border BorderBrush="Red" BorderThickness="2">
+                    <AdornedElementPlaceholder x:Name="Aep"/>
+                </Border>
+                <Popup Placement="Bottom"
+                       PlacementTarget="{Binding ElementName=Aep}"
+                       PopupAnimation="Fade"
+                       IsOpen="{Binding ElementName=Aep, Path=AdornedElement.IsMouseOver, Mode=OneWay}">
+                    <TextBlock Background="Red" Foreground="White" HorizontalAlignment="Right" Padding="2"
+                           Text="{Binding ElementName=Aep, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"/>
+                </Popup>
+            </StackPanel>
+        </ControlTemplate>
+
+        <local:ValidationRuleCollection x:Key="validationRules">
+            <local:IPv4Validation/>
+        </local:ValidationRuleCollection>
+        
     </Window.Resources>
+
+    <Window.DataContext>
+        <local:Person/>
+    </Window.DataContext>
 
 
     <StackPanel Margin="5">
 
         <TextBox x:Name="Tbx_IpInput"
-                 Validation.ErrorTemplate="{StaticResource Ctp_Error_01}">
+                 Validation.ErrorTemplate="{StaticResource Ctp_Error_02}">
             <TextBox.Text>
                 <Binding ElementName="Tbl_IpOutput" Path="Text" UpdateSourceTrigger="PropertyChanged">
                     <Binding.ValidationRules>
@@ -41,6 +64,17 @@
             </TextBox.Text>
         </TextBox>
         <TextBlock x:Name="Tbl_IpOutput"/>
+
+        <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnExceptions=True}"
+                 Validation.ErrorTemplate="{StaticResource Ctp_Error_01}"/>
+
+        <TextBox Text="{Binding Alter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource Ctp_Error_01}"/>
+
+        <TextBox x:Name="Tbx_IpInput_2"
+                 Validation.ErrorTemplate="{StaticResource Ctp_Error_02}"
+                 Text="{local:ValidationMarkup {Binding ElementName=Tbl_IpOutput_2, Path=Text, UpdateSourceTrigger=PropertyChanged}, {StaticResource validationRules}}"/>
+        <TextBlock x:Name="Tbl_IpOutput_2"/>
 
     </StackPanel>
 </Window>
