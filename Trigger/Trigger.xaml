@@ -60,7 +60,11 @@
         <Separator Margin="5"/>
 
         <!--Beispiel-Einbindung des UserControls aus M11_UserControls-->
-        <uc:ColorPicker x:Name="ColorPicker_01"/>
+        <uc:ColorPicker x:Name="ColorPicker_01" 
+                        Tap="ColorPicker_01_Tap"
+                        PickedColorChanged="ColorPicker_01_PickedColorChanged"/>
+
+        <Button Content="Hallo" uc:ColorPicker.Count="5"/>
 
     </StackPanel>
 </Window>

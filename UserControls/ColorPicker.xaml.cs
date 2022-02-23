@@ -24,6 +24,7 @@ namespace UserControls
         {
             InitializeComponent();
 
+            Tbl_Output.PreviewMouseDown += (s, e) => RaiseTapEvent(this);
 
             //Erstellen einer neuen Bindung (Fill-Eigenschaft des Rechtecks an PickedColor-Eigenschaft)
             //Initialisierung mit Übergabe der zu Bindenden Quell-Eigenschaft
@@ -53,8 +54,57 @@ namespace UserControls
 
         //Registrierung für neue Bindungen an der DependencyProperty
         public static readonly DependencyProperty PickedColorProperty =
-            DependencyProperty.Register("PickedColor", typeof(SolidColorBrush), typeof(ColorPicker), new PropertyMetadata(default(SolidColorBrush), (s, e) => { }, (dpo, value) => { return (dpo as ColorPicker).Sdr_Alpha.Value == 150 ? new SolidColorBrush(Colors.Red) : value; }));
+            DependencyProperty.Register(
+                "PickedColor", 
+                typeof(SolidColorBrush), 
+                typeof(ColorPicker), 
+                new PropertyMetadata(
+                    default(SolidColorBrush), 
+                    (s, e) => (s as UIElement)?.RaiseEvent(new RoutedPropertyChangedEventArgs<SolidColorBrush>((SolidColorBrush)e.OldValue, (SolidColorBrush)e.NewValue, PickedColorChangedEvent)),
+                    (dpo, value) => { return (dpo as ColorPicker).Sdr_Alpha.Value == 150 ? new SolidColorBrush(Colors.Red) : value; }));
 
 
+
+
+
+        public static int GetCount(DependencyObject obj)
+        {
+            return (int)obj.GetValue(CountProperty);
+        }
+
+        public static void SetCount(DependencyObject obj, int value)
+        {
+            obj.SetValue(CountProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for Count.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CountProperty =
+            DependencyProperty.RegisterAttached("Count", typeof(int), typeof(ColorPicker), new PropertyMetadata(0));
+
+
+
+        public event RoutedEventHandler Tap
+        {
+            add { AddHandler(TapEvent, value); }
+            remove { RemoveHandler(TapEvent, value); }
+        }
+
+        public static readonly RoutedEvent TapEvent = 
+            EventManager.RegisterRoutedEvent("Tap", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(ColorPicker));
+    
+        void RaiseTapEvent(object source)
+        {
+            RoutedEventArgs newEventsArgs = new RoutedEventArgs(ColorPicker.TapEvent, source);
+            RaiseEvent(newEventsArgs);
+        }
+
+
+        //PickedColorChangedEvent
+        public static readonly RoutedEvent PickedColorChangedEvent = EventManager.RegisterRoutedEvent("PickedColorChanged", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(ColorPicker));
+        public event RoutedEventHandler PickedColorChanged
+        {
+            add { AddHandler(PickedColorChangedEvent, value); }
+            remove { RemoveHandler(PickedColorChangedEvent, value); }
+        }
     }
 }
