@@ -20,10 +20,28 @@ namespace UserControls
     /// </summary>
     public partial class ColorPicker : UserControl
     {
+        //CustomEvent
+        public static readonly RoutedEvent TapEvent = EventManager.RegisterRoutedEvent("Tap", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(ColorPicker));
+
+        //Handleranmeldung
+        public event RoutedEventHandler Tap
+        {
+            add { AddHandler(TapEvent, value); }
+            remove { RemoveHandler(TapEvent, value); }
+        }
+
+        //Methode zum Feuern des Eventhandlers
+        void RaiseTapEvent(object source)
+        {
+            RoutedEventArgs newEventArgs = new RoutedEventArgs(ColorPicker.TapEvent, source);
+            RaiseEvent(newEventArgs);
+        }
+
         public ColorPicker()
         {
             InitializeComponent();
 
+            //EventRaising durch MouseDown-Event des TextBlocks
             Tbl_Output.PreviewMouseDown += (s, e) => RaiseTapEvent(this);
 
             //Erstellen einer neuen Bindung (Fill-Eigenschaft des Rechtecks an PickedColor-Eigenschaft)
@@ -54,19 +72,31 @@ namespace UserControls
 
         //Registrierung für neue Bindungen an der DependencyProperty
         public static readonly DependencyProperty PickedColorProperty =
-            DependencyProperty.Register(
-                "PickedColor", 
-                typeof(SolidColorBrush), 
-                typeof(ColorPicker), 
-                new PropertyMetadata(
-                    default(SolidColorBrush), 
-                    (s, e) => (s as UIElement)?.RaiseEvent(new RoutedPropertyChangedEventArgs<SolidColorBrush>((SolidColorBrush)e.OldValue, (SolidColorBrush)e.NewValue, PickedColorChangedEvent)),
-                    (dpo, value) => { return (dpo as ColorPicker).Sdr_Alpha.Value == 150 ? new SolidColorBrush(Colors.Red) : value; }));
+            DependencyProperty.Register
+            (
+                "PickedColor",
+                typeof(SolidColorBrush),
+                typeof(ColorPicker),
+                new PropertyMetadata
+                (
+                    default(SolidColorBrush),
+                    (s, e) => (s as UIElement)?.RaiseEvent(new RoutedPropertyChangedEventArgs<SolidColorBrush>(e.OldValue as SolidColorBrush, e.NewValue as SolidColorBrush, PickedColorChangedEvent)),
+                    (dpo, value) => { return (dpo as ColorPicker).Sdr_Alpha.Value == 150 ? new SolidColorBrush(Colors.Red) : value; }
+                )
+            );
+
+
+        //PickedColorChangedEvent
+        public static readonly RoutedEvent PickedColorChangedEvent = EventManager.RegisterRoutedEvent("PickedColorChanged", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(ColorPicker));
+        public event RoutedEventHandler PickedColorChanged
+        {
+            add { AddHandler(PickedColorChangedEvent, value); }
+            remove { RemoveHandler(PickedColorChangedEvent, value); }
+        }
 
 
 
-
-
+        //AttachedProperty (Eigenschaft, welche an Elemente im Content verteilt wird - Zugriff erfolgt über ColorPicker.Count in den Content-Objekten)
         public static int GetCount(DependencyObject obj)
         {
             return (int)obj.GetValue(CountProperty);
@@ -77,34 +107,9 @@ namespace UserControls
             obj.SetValue(CountProperty, value);
         }
 
-        // Using a DependencyProperty as the backing store for Count.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CountProperty =
             DependencyProperty.RegisterAttached("Count", typeof(int), typeof(ColorPicker), new PropertyMetadata(0));
 
 
-
-        public event RoutedEventHandler Tap
-        {
-            add { AddHandler(TapEvent, value); }
-            remove { RemoveHandler(TapEvent, value); }
-        }
-
-        public static readonly RoutedEvent TapEvent = 
-            EventManager.RegisterRoutedEvent("Tap", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(ColorPicker));
-    
-        void RaiseTapEvent(object source)
-        {
-            RoutedEventArgs newEventsArgs = new RoutedEventArgs(ColorPicker.TapEvent, source);
-            RaiseEvent(newEventsArgs);
-        }
-
-
-        //PickedColorChangedEvent
-        public static readonly RoutedEvent PickedColorChangedEvent = EventManager.RegisterRoutedEvent("PickedColorChanged", RoutingStrategy.Direct, typeof(RoutedEventHandler), typeof(ColorPicker));
-        public event RoutedEventHandler PickedColorChanged
-        {
-            add { AddHandler(PickedColorChangedEvent, value); }
-            remove { RemoveHandler(PickedColorChangedEvent, value); }
-        }
     }
 }
